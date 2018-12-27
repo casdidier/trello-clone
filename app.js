@@ -41,7 +41,17 @@ app.use(session({
     /* Supprime un élément de la todolist */
     .get('/todo/supprimer/:id', function (req, res) {
         if (req.params.id != '') {
+            console.log(req.session.todolist);
             req.session.todolist.splice(req.params.id, 1);
+        }
+        res.redirect('/todo');
+    })
+
+    /* modifie un élément de la todolist */
+    .post('/todo/modifier/:id', urlencodedParser, function (req, res) {
+        if (req.params.id != '') {
+            console.log(req.session.todolist[req.params.id]);
+            req.session.todolist[req.params.id] = req.body.newtodo;
         }
         res.redirect('/todo');
     })

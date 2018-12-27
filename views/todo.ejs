@@ -17,6 +17,15 @@
         <li><a href="/todo/supprimer/<%= index %>">✘</a>
             <%= todo %>
         </li>
+        
+<form action="/todo/modifier/<%= index %>" method="post">
+            <p>
+                <label for="newtodo">modifier</label>
+                <input type="text" name="newtodo" id="newtodo" autofocus />
+                <input type="submit" />
+            </p>
+        </form>
+        
         <% }); %>
     </ul>
 
