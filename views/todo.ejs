@@ -6,7 +6,23 @@
     <title>Ma todolist</title>
     <style>
         a {text-decoration: none; color: black;}
-        </style>
+    </style>
+    <script>
+        function allowDrop(ev) {
+        ev.preventDefault();
+        }
+
+        function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 </head>
 
 <body>
@@ -14,7 +30,11 @@
 
     <ul>
         <% todolist.forEach(function(todo, index) { %>
-        <li><a href="/todo/supprimer/<%= index %>">✘</a>
+        <li draggable="true"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+            ondragstart="drag(event)">
+            <a href="/todo/supprimer/<%= index %>">✘</a>
             <%= todo %>
         </li>
         
@@ -36,6 +56,23 @@
             <input type="submit" />
         </p>
     </form>
+
+    <p><input type="button" value="Poke le server" id="poke" /></p>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:8080');
+        var pseudo = prompt('Quel est votre pseudo ?');
+            socket.emit('petit_nouveau', pseudo);
+        socket.on('message', function (message) {
+                alert('Le serveur a un message pour vous : ' + message);
+            })
+        
+        $('#poke').click(function () {
+        socket.emit('message', 'Salut serveur, ça va ?');
+        });
+    </script>
+
 </body>
 
 </html>

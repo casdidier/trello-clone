@@ -2,10 +2,15 @@
     "name": "ma-todolist",
     "version": "0.1.0",
     "dependencies": {
-        "express": "~4.11.0",
-        "ejs": "~2.1.4",
+        "FileReader": "^0.10.2",
+        "body-parser": "~1.10.1",
+        "bufferjs": "1.0.0",
         "cookie-session": "~1.1.0",
-        "body-parser": "~1.10.1"
+        "ejs": "~2.1.4",
+        "express": "~4.11.0",
+        "mock-browser": "^0.92.14",
+        "mongoose": "^5.4.1",
+        "socket.io": "^2.2.0"
     },
     "author": "didier cas cheung.didier@gmail.com",
     "description": "Un gestionnaire de todolist ultra basique"
