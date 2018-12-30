@@ -10,6 +10,7 @@ var urlencodedParser = bodyParser.urlencoded({
 var fs = require('fs');
 
 var server = http.createServer(app);
+let todoListUpdated = undefined;
 
 /* here we use sessions */
 app.use(session({
@@ -22,6 +23,7 @@ app.use(session({
     .use(function (req, res, next) {
         if (typeof (req.session.todolist) == 'undefined') {
             req.session.todolist = [];
+            todoListUpdated = req.session.todolist;
         }
         next();
     })
@@ -74,6 +76,10 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.emit('message', 'Vous êtes bien connecté !');
     // On signale aux autres clients qu'il y a un nouveau venu
     socket.broadcast.emit('message', 'Un autre client vient de se connecter ! ');
+
+    // quand un utilisateur se connecte, il recoit la derniere version de
+    // todolist
+    socket.emit('updated-list', todoListUpdated);
 
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session
     socket.on('petit_nouveau', function (pseudo) {

@@ -64,9 +64,14 @@
         var socket = io.connect('http://localhost:8080');
         var pseudo = prompt('Quel est votre pseudo ?');
             socket.emit('petit_nouveau', pseudo);
-        socket.on('message', function (message) {
-                alert('Le serveur a un message pour vous : ' + message);
-            })
+        // socket.on('message', function (message) {
+        //         alert('Le serveur a un message pour vous : ' + message);
+        //     })
+
+        socket.on('updated-list', function(param) {
+            console.log(param);
+            console.log('test updated list');
+        });
         
         $('#poke').click(function () {
         socket.emit('message', 'Salut serveur, ça va ?');
